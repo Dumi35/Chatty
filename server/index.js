@@ -26,11 +26,21 @@ socketIO.on('connection', (socket) => {
 
   //sends active users
   socket.on('newUser', (data) => {
+    console.log("sad noises",data)
     allActiveUsers.push(data)
+    console.log("all the users", allActiveUsers)
     socketIO.emit('activeUsers', allActiveUsers);
-    //console.log("this is ",data)
+    socketIO.emit('messageResponse', allMessages);
   });
+ 
 
+  socket.on('message', (data) => {
+    allMessages.push(data)
+    socketIO.emit('messageResponse', allMessages);
+  });
+  
+  socketIO.emit('activeUsers', allActiveUsers);
+  socketIO.emit('messageResponse', allMessages);
  /*  socket.on('deletedUser', (data) => {
     
     allActiveUsers.filter(item => item.id !== data);
@@ -40,14 +50,10 @@ socketIO.on('connection', (socket) => {
   
 
   //sends the message to all the users on the server
-  socket.on('message', (data) => {
-    allMessages.push(data)
-    socketIO.emit('messageResponse', allMessages);
-    //socketIO.emit('messageResponse', data);
-  });
   
-  socketIO.emit('messageResponse', allMessages);
   
+  //socketIO.emit('messageResponse', allMessages);
+
   socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
   });

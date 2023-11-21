@@ -4,28 +4,36 @@ import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
 
 const ChatPage = ({ socket }) => {
+  
   const [messages, setMessages] = useState([]);
   const [activeUsers,setActiveUsers] = useState([])
 
-  useEffect(() => {
-    socket.on('messageResponse', (data) => setMessages(data));
-  });
+ /*  socket.on('activeUsers', (data) => {
+    setActiveUsers(data);
+    console.log("chat page says",data);
+  });   */
 
-  
   useEffect(() => {
-    socket.on('activeUsers', (data) => setActiveUsers(data));
-    //console.log(data);
-  }, [socket, activeUsers]); 
+    socket.on('messageResponse', (data) => {setMessages(data);console.log("chat page says",data);});
+    socket.on('activeUsers', (data) => {
+      setActiveUsers(data);
+      console.log("chat page says",data);
+    });  
+  },[socket,activeUsers]);
+  
+  /* useEffect(() => {
+   
+  });  */
 
 
   return (
     <div className="chat">
-      <ChatBar activeUsers={activeUsers} />
-     {/* <ChatBar socket={socket} activeUsers={activeUsers} />  */}
+{/*       <ChatBar activeUsers={activeUsers} />
+ */}     <ChatBar socket={socket} activeUsers={activeUsers} />  
      <div className="chat__main">
         <ChatBody messages={messages} />
-        <ChatFooter socket={socket} />
-      </div>
+         <ChatFooter socket={socket} />
+     </div>
     </div>
   );
 };

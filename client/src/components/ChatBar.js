@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const ChatBar = ({activeUsers}) => {
+const ChatBar = ({socket, activeUsers}) => {
 
   console.log(activeUsers)
   return (

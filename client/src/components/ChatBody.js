@@ -29,6 +29,7 @@ const ChatBody = ({ messages,socket }) => {
                 <p className="sender__name">You</p>
                 <div className="message__sender">
                   <p>{message.text}</p>
+                  <p>{message.id}</p>
                 </div>
               </div>
             ) : (

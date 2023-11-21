@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = ({ socket }) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
 
+  /* const [count, setCount] = useState(0)
+  useEffect(()=> {
+    console.log("Clemen vi")
+    setCount(count+1)
+})
+ */
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
     console.log(userName)
     //sends the username and socket ID to the Node.js server
     socket.emit('newUser', { userName, socketID: socket.id });
+    
+    //socket.emit('connection', { userName, socketID: socket.id });
     navigate('/chat');
+    
   };
   
   return (
