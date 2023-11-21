@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 const ChatFooter = ({ socket }) => {
   const [message, setMessage] = useState('');
+
+  /* useEffect(()=>{
+    socket.emit('message', {
+      text: message,
+      name: localStorage.getItem('userName'),
+      id: `${socket.id}${Math.random()}`,
+      socketID: socket.id,
+    });
+
+  }) */
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -12,6 +22,7 @@ const ChatFooter = ({ socket }) => {
         id: `${socket.id}${Math.random()}`,
         socketID: socket.id,
       });
+      
     }
     setMessage('');
   };

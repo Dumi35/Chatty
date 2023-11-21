@@ -8,21 +8,21 @@ const ChatPage = ({ socket }) => {
   const [activeUsers,setActiveUsers] = useState([])
 
   useEffect(() => {
-    socket.on('messageResponse', (data) => setMessages([...messages, data]));
-  }, [socket, messages]);
+    socket.on('messageResponse', (data) => setMessages(data));
+  });
 
   
   useEffect(() => {
-    socket.on('activeUsers', (data) => setActiveUsers([...activeUsers, data]));
+    socket.on('activeUsers', (data) => setActiveUsers(data));
     //console.log(data);
   }, [socket, activeUsers]); 
 
 
   return (
     <div className="chat">
-{/*       <ChatBar activeUsers={activeUsers} />
- */}      <ChatBar socket={socket} activeUsers={activeUsers} /> 
-      <div className="chat__main">
+      <ChatBar activeUsers={activeUsers} />
+     {/* <ChatBar socket={socket} activeUsers={activeUsers} />  */}
+     <div className="chat__main">
         <ChatBody messages={messages} />
         <ChatFooter socket={socket} />
       </div>

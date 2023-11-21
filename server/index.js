@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 const PORT = 4000;
 const allMessages = []
+const allActiveUsers = []
 
 //New imports
 const http = require('http').Server(app);
 const cors = require('cors');
 
 app.use(cors());
+
+//io is for everyone on the page
+//socket is for each individual client whiich explains why each person had only messages from when they came show up
 
 const socketIO = require('socket.io')(http, {
     cors: {
@@ -22,16 +26,28 @@ socketIO.on('connection', (socket) => {
 
   //sends active users
   socket.on('newUser', (data) => {
-    socketIO.emit('activeUsers', data);
-    console.log("this is ",data)
+    allActiveUsers.push(data)
+    socketIO.emit('activeUsers', allActiveUsers);
+    //console.log("this is ",data)
   });
+
+ /*  socket.on('deletedUser', (data) => {
+    
+    allActiveUsers.filter(item => item.id !== data);
+    socketIO.emit('activeUsers', allActiveUsers);
+    
+  }); */
+  
 
   //sends the message to all the users on the server
   socket.on('message', (data) => {
     allMessages.push(data)
     socketIO.emit('messageResponse', allMessages);
+    //socketIO.emit('messageResponse', data);
   });
-
+  
+  socketIO.emit('messageResponse', allMessages);
+  
   socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
   });
