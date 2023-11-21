@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 4000;
+const allMessages = []
 
 //New imports
 const http = require('http').Server(app);
@@ -17,10 +18,18 @@ const socketIO = require('socket.io')(http, {
 //Add this before the app.get() block
 socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+  //console.log(`${socket.name} user just connected!`);
+
+  //sends active users
+  socket.on('newUser', (data) => {
+    socketIO.emit('activeUsers', data);
+    console.log("this is ",data)
+  });
 
   //sends the message to all the users on the server
   socket.on('message', (data) => {
-    socketIO.emit('messageResponse', data);
+    allMessages.push(data)
+    socketIO.emit('messageResponse', allMessages);
   });
 
   socket.on('disconnect', () => {
