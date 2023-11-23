@@ -5,16 +5,11 @@ const Home = ({ socket }) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
 
-  /* const [count, setCount] = useState(0)
-  useEffect(()=> {
-    console.log("Clemen vi")
-    setCount(count+1)
-})
- */
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('userName', userName);
-    console.log(userName)
+    
     //sends the username and socket ID to the Node.js server
     socket.emit('newUser', { userName, socketID: socket.id });
     
@@ -32,6 +27,7 @@ const Home = ({ socket }) => {
         minLength={6}
         name="username"
         id="username"
+        required
         className="username__input"
         value={userName}
         onChange={(e) => setUserName(e.target.value)}

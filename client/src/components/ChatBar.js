@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const ChatBar = ({socket, activeUsers}) => {
 
-  console.log(activeUsers)
+  //console.log(activeUsers)
   return (
     <div className="chat__sidebar">
       <h2>Chat Side Bar</h2>

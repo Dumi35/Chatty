@@ -1,16 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState,useEffect } from 'react';
 
-const ChatBody = ({ messages,socket }) => {
+const ChatBody = ({ messages,socket,user }) => {
   const navigate = useNavigate();
+  
 
   const handleLeaveChat = () => {
     const userName = localStorage.getItem('userName')
-    //socket.emit('deletedUser', {userName});
+    socket.emit('deletedUser', {userName});
     localStorage.removeItem('userName');
     navigate('/');
-    window.location.reload();
+    //window.location.reload();
   };
+
+  
 
   return (
     <>
@@ -29,7 +33,7 @@ const ChatBody = ({ messages,socket }) => {
                 <p className="sender__name">You</p>
                 <div className="message__sender">
                   <p>{message.text}</p>
-                  <p>{message.id}</p>
+                  
                 </div>
               </div>
             ) : (
@@ -44,7 +48,11 @@ const ChatBody = ({ messages,socket }) => {
         )}
 
         <div className="message__status">
-          <p>Someone is typing...</p>
+          {user.map((userTyping)=>{
+            return(
+              <p>{userTyping.person}</p>
+            )
+          })}  
         </div>
       </div>
     </>

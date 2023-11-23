@@ -7,31 +7,30 @@ const ChatPage = ({ socket }) => {
   
   const [messages, setMessages] = useState([]);
   const [activeUsers,setActiveUsers] = useState([])
+  const [user,setUser] = useState([])
 
- /*  socket.on('activeUsers', (data) => {
-    setActiveUsers(data);
-    console.log("chat page says",data);
-  });   */
 
   useEffect(() => {
-    socket.on('messageResponse', (data) => {setMessages(data);console.log("chat page says",data);});
+    socket.on('messageResponse', (data) => {setMessages(data);});
+    //online users
     socket.on('activeUsers', (data) => {
       setActiveUsers(data);
-      console.log("chat page says",data);
+      //console.log("active users",data)
     });  
+    //receive current user typing
+    socket.on('userTyping',(data)=>{
+      setUser(data)
+      //console.log("chat page hahaaa says",data);
+    })
   },[socket,activeUsers]);
   
-  /* useEffect(() => {
-   
-  });  */
-
 
   return (
     <div className="chat">
 {/*       <ChatBar activeUsers={activeUsers} />
  */}     <ChatBar socket={socket} activeUsers={activeUsers} />  
      <div className="chat__main">
-        <ChatBody messages={messages} />
+        <ChatBody messages={messages} user={user} socket={socket}/>
          <ChatFooter socket={socket} />
      </div>
     </div>
